@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equidad e Inequidad - Guía Didáctica Interactiva</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --naranja: #db6015;
+            --amarillo: #f7be00;
+            --azul-oscuro: #244b5a;
+            --azul-claro: #f0f8ff;
+            --blanco: #ffffff;
+            --gris-claro: #f5f5f5;
+            --gris-medio: #e0e0e0;
+            --texto-oscuro: #2c2c2c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--azul-claro);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .contenedor-principal {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .diapositiva {
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 80px;
+            background: linear-gradient(135deg, var(--azul-claro) 0%, var(--blanco) 100%);
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        .diapositiva.activa {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .portada {
+            background: linear-gradient(135deg, var(--naranja) 0%, var(--amarillo) 50%, var(--naranja) 100%);
+            text-align: center;
+            justify-content: space-around;
+        }
+
+        .portada h1 {
+            color: var(--azul-oscuro);
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+
+        .portada .subtitulo {
+            color: var(--blanco);
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .numero-leccion {
+            color: var(--amarillo);
+            font-size: 0.8em;
+            display: inline-block;
+            background: var(--azul-oscuro);
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .icono-grande {
+            font-size: 6em;
+            margin: 30px 0;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .mensaje-positivo {
+            color: var(--blanco);
+            font-size: 1.2em;
+            margin-top: 20px;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        .contenido-diapositiva {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 50px;
+            background: var(--blanco);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            max-width: 1100px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .titulo-seccion {
+            color: var(--naranja);
+            font-size: 2.8em;
+            margin-bottom: 40px;
+            font-weight: 900;
+            text-align: center;
+            position: relative;
+            padding-bottom: 25px;
+        }
+
+        .titulo-seccion::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 6px;
+            background: linear-gradient(90deg, var(--amarillo), var(--naranja));
+            border-radius: 3px;
+        }
+
+        .objetivo-item {
+            background: linear-gradient(90deg, rgba(219, 96, 21, 0.12) 0%, rgba(247, 190, 0, 0.12) 100%);
+            padding: 25px;
+            margin: 18px 0;
+            border-left: 6px solid var(--naranja);
+            border-radius: 10px;
+            font-size: 1.1em;
+            color: var(--texto-oscuro);
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        .objetivo-item::before {
+            content: '✓';
+            color: var(--naranja);
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.3em;
+        }
+
+        .contenido-bloque {
+            background: var(--gris-claro);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 5px solid var(--naranja);
+            line-height: 1.8;
+            font-size: 1.1em;
+            color: var(--texto-oscuro);
+        }
+
+        .contenido-bloque strong {
+            color: var(--naranja);
+            font-weight: 700;
+        }
+
+        .palabras-clave-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .palabra-clave-card {
+            background: linear-gradient(135deg, var(--naranja) 0%, var(--amarillo) 100%);
+            padding: 35px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 240px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .palabra-clave-card:hover {
+            transform: translateY(-15px);
+        }
+
+        .palabra-clave-card h3 {
+            color: var(--azul-oscuro);
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            font-weight: 900;
+        }
+
+        .palabra-clave-card p {
+            color: var(--blanco);
+            font-size: 1em;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        .grid-exploracion {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .elemento-explorable {
+            background: linear-gradient(135deg, rgba(36, 75, 90, 0.08) 0%, rgba(219, 96, 21, 0.08) 100%);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid var(--gris-medio);
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .elemento-explorable:hover {
+            background: linear-gradient(135deg, rgba(219, 96, 21, 0.15) 0%, rgba(247, 190, 0, 0.15) 100%);
+            border-color: var(--naranja);
+            transform: scale(1.05);
+        }
+
+        .elemento-explorable .icono {
+            font-size: 3.5em;
+            margin-bottom: 12px;
+        }
+
+        .elemento-explorable .titulo {
+            color: var(--naranja);
+            font-weight: bold;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+
+        .elemento-explorable .descripcion {
+            color: var(--texto-oscuro);
+            font-size: 1em;
+            line-height: 1.6;
+            display: none;
+            font-weight: 500;
+        }
+
+        .elemento-explorable.activo .descripcion {
+            display: block;
+        }
+
+        .pregunta {
+            background: linear-gradient(90deg, rgba(36, 75, 90, 0.08) 0%, rgba(219, 96, 21, 0.08) 100%);
+            padding: 30px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 5px solid var(--azul-oscuro);
+        }
+
+        .pregunta h3 {
+            color: var(--azul-oscuro);
+            font-size: 1.35em;
+            margin-bottom: 25px;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+
+        .opciones {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .opcion {
+            background: var(--blanco);
+            border: 2px solid var(--gris-medio);
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.05em;
+            font-weight: 500;
+            color: var(--texto-oscuro);
+            line-height: 1.6;
+        }
+
+        .opcion:hover {
+            border-color: var(--naranja);
+            background: rgba(219, 96, 21, 0.08);
+            transform: translateX(8px);
+        }
+
+        .opcion input[type="radio"],
+        .opcion input[type="checkbox"] {
+            margin-right: 15px;
+            cursor: pointer;
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+        }
+
+        .opcion label {
+            cursor: pointer;
+            display: flex;
+            align-items: flex-start;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .boton-enviar {
+            background: linear-gradient(135deg, var(--naranja) 0%, var(--amarillo) 100%);
+            color: var(--azul-oscuro);
+            border: none;
+            padding: 16px 50px;
+            border-radius: 10px;
+            font-size: 1.15em;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(219, 96, 21, 0.3);
+        }
+
+        .boton-enviar:hover {
+            transform: translateY(-3px);
+        }
+
+        .retroalimentacion {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+            font-size: 1.05em;
+            line-height: 1.6;
+            border-left: 5px solid;
+        }
+
+        .retroalimentacion.correcta {
+            background: rgba(76, 175, 80, 0.2);
+            color: #2e7d32;
+            border-left-color: #4caf50;
+            display: block;
+        }
+
+        .retroalimentacion.incorrecta {
+            background: rgba(244, 67, 54, 0.2);
+            color: #c62828;
+            border-left-color: #f44336;
+            display: block;
+        }
+
+        .boton-reintentar {
+            background: var(--azul-oscuro);
+            color: var(--blanco);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .boton-reintentar:hover {
+            background: var(--naranja);
+        }
+
+        .juego-clasificacion {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .columna-juego {
+            background: linear-gradient(135deg, var(--gris-claro) 0%, var(--azul-claro) 100%);
+            padding: 20px;
+            border-radius: 12px;
+            border: 3px dashed var(--gris-medio);
+            min-height: 350px;
+            transition: all 0.3s ease;
+        }
+
+        .columna-juego.dragover {
+            background: linear-gradient(135deg, rgba(219, 96, 21, 0.2) 0%, rgba(247, 190, 0, 0.2) 100%);
+            border-color: var(--naranja);
+        }
+
+        .columna-juego h4 {
+            color: var(--naranja);
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .items-juego {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-height: 250px;
+        }
+
+        .item-juego {
+            background: var(--blanco);
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid var(--gris-medio);
+            cursor: grab;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-align: center;
+            user-select: none;
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+
+        .item-juego:hover {
+            border-color: var(--naranja);
+            background: rgba(219, 96, 21, 0.05);
+        }
+
+        .item-juego.correcta {
+            border-color: #4caf50;
+            background: rgba(76, 175, 80, 0.15);
+        }
+
+        .item-juego.incorrecta {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.15);
+        }
+
+        .item-juego.seleccionado {
+            border: 3px solid var(--naranja);
+            background: linear-gradient(135deg, rgba(219, 96, 21, 0.2) 0%, rgba(247, 190, 0, 0.2) 100%);
+            box-shadow: 0 0 15px rgba(219, 96, 21, 0.4);
+            transform: scale(1.05);
+        }
+
+        .cierre-mensaje {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .medal-icon {
+            font-size: 6em;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .cierre-titulo {
+            color: var(--naranja);
+            font-size: 2.5em;
+            font-weight: 900;
+        }
+
+        .cierre-subtitulo {
+            color: var(--texto-oscuro);
+            font-size: 1.25em;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        .nav-flecha {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 4em;
+            cursor: pointer;
+            color: var(--naranja);
+            transition: all 0.3s ease;
+            user-select: none;
+            padding: 20px;
+            z-index: 100;
+        }
+
+        .nav-flecha:hover {
+            color: var(--amarillo);
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        .nav-izquierda { left: 20px; }
+        .nav-derecha { right: 20px; }
+
+        .barra-progreso {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 8px;
+            background: var(--gris-claro);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .barra-progreso-relleno {
+            height: 100%;
+            background: linear-gradient(90deg, var(--naranja), var(--amarillo));
+            transition: width 0.6s ease;
+        }
+
+        @media (max-width: 768px) {
+            .diapositiva { padding: 40px 20px; }
+            .contenido-diapositiva { padding: 30px; }
+            .titulo-seccion { font-size: 2em; }
+            .portada h1 { font-size: 2.5em; }
+            .nav-flecha { font-size: 2.5em; }
+            .grid-exploracion { grid-template-columns: 1fr; }
+            .juego-clasificacion { grid-template-columns: 1fr; }
+            .palabras-clave-container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor-principal">
+        <div class="barra-progreso">
+            <div class="barra-progreso-relleno" id="progreso"></div>
+        </div>
+
+        <!-- DIAPOSITIVA 1: PORTADA -->
+        <div class="diapositiva activa portada">
+            <div class="numero-leccion">Lección 3 - Formación Ciudadana</div>
+            <h1>Equidad e Inequidad</h1>
+            <p class="subtitulo">Grado 4° Primaria</p>
+            <div class="icono-grande">⚖️</div>
+            <p class="mensaje-positivo">Entendamos juntos cómo crear un mundo más justo para todos</p>
+        </div>
+
+        <!-- DIAPOSITIVA 2: OBJETIVOS -->
+        <div class="diapositiva">
+            <div class="contenido-diapositiva">
+                <h2 class="titulo-seccion">Objetivos de Aprendizaje</h2>
+                <div class="objetivo-item">Entender qué es la equidad y cómo se diferencia de la igualdad</div>
+                <div class="objetivo-item">Identificar ejemplos de inequidad en la vida cotidiana</div>
+                <div class="objetivo-item">Proponer acciones para crear más equidad en mi comunidad</div>
+            </div>
+        </div>
+
+        <!-- DIAPOSITIVA 3: ACTIVACIÓN DE CONOCIMIENTOS -->
+        <div class="diapositiva">
+            <div class="contenido-diapositiva">
+                <h2 class="titulo-seccion">Recordemos Juntos</h2>
+                <div class="contenido-bloque"><strong>Pregunta 1:</strong> ¿Crees que es importante que todos seamos tratados de forma justa? ¿Por qué?</div>
+                <div class="contenido-bloque"><strong>Pregunta 2:</strong> ¿Conoces una situación donde alguien fue tratado injustamente? ¿Cómo te sentiste?</div>
+                <div class="contenido-bloque"><strong>Pregunta 3:</strong> ¿Qué significa para ti que algo sea "equitativo" o "justo"?</div>
+            </div>
+        </div>
+
+        <!-- DIAPOSITIVA 4: PALABRAS CLAVE -->
+        <div class="diapositiva">
+            <div class="contenido-diapositiva">
+                <h2 class="titulo-seccion">Conceptos Importantes</h2>
+                <div class="palabras-clave-container">
+                    <div class="palabra-clave-card">
+                        <h3>Equidad</h3>
+                        <p>Dar a cada persona lo que necesita para estar en igualdad de condiciones. No siempre significa dar lo mismo a todos.</p>
+                    </div>
+                    <div class="palabra-clave-card">
+                        <h3>Inequidad</h3>
+                        <p>Cuando hay desigualdad injusta. Algunas personas tienen menos oportunidades que otras sin razón válida.</p>
+                    </div>
+                    <div class="palabra-clave-card">
+                        <h3>Justicia</h3>
+                        <p>Trato imparcial y correcto para todos. Es lo opuesto a la discriminación y la injusticia.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DIAPOSITIVA 5: CONTENIDO 1 -->
+        <div class="diapositiva">
+            <div class="contenido-diapositiva">
+                <h2 class="titulo-seccion">¿Qué es la Equidad?</h2>
+                <div class="contenido-bloque"><strong>La equidad</strong> significa dar a cada persona lo que realmente necesita para tener las mismas oportunidades. No es lo mismo que la igualdad. Veamos un ejemplo:</div>
+                <div class="contenido-bloque">💡 <strong>Imagina una carrera:</strong> Si todos corren con los mismos zapatos, pero algunos tienen lesiones, ¿es justo? <strong>No.</strong> La equidad sería dar zapatos especiales a quienes los necesitan, de modo que todos puedan correr justamente.</div>
+                <div class="contenido-bloque">La equidad ve las <strong>necesidades diferentes</strong> de las personas y hace ajustes para que todos tengan oportunidades iguales.</div>
+            </div>
+        </div>
+
+        <!-- DIAPOSITIVA 6: CONTENIDO 2 -->
+        <div class="diapositiva">
+            <div class="contenido-diapositiva">
+                <h2 class="titulo-seccion">Igualdad vs Equidad</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                    <div class="contenido-bloque" style="border-left-color: #f44336;">
+                        <strong style="color: #c62828;">❌ Igualdad</strong><br>
+                        Dar lo MISMO a todos sin considerar necesidades.<br><br>
+                        Ejemplo: Todos reciben 1 hora para hacer un trabajo, aunque algunos necesiten más tiempo.
+                    </div>
+                    <div class="contenido-bloque" style="border-left-color: #4caf50;">
+                        <strong style="color: #2e7d32;">✓ Equidad</strong><br>
+                        Dar lo que CADA UNO necesita para estar en igualdad.<br><br>
+                        Ejemplo: Quienes necesitan más tiempo reciben tiempo extra, para que todos logren los objetivos.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DIAPOSITIVA 7: EXPLORACIÓN VISUAL -->
+        <div class="diapositiva">
+            <div class="contenido-diapositiva">
+                <h2 class="titulo-seccion">Ejemplos de Inequidad</h2>
+                <div class="grid-exploracion">
+                    <div class="elemento-explorable" onclick="toggleExplore(this)">
+                        <div class="icono">🎓</div>
+                        <div class="titulo">Educación</div>
+                        <div class="descripcion">Hay niños que no pueden ir a la escuela porque necesitan trabajar, mientras otros sí pueden estudiar. Esto es inequitativo.</div>
+                    </div>
+                    <div class="elemento-explorable" onclick="toggleExplore(this)">
+                        <div class="icono">🏥</div>
+                        <div class="titulo">Salud</div>
+                        <div class="descripcion">Algunas comunidades no tienen acceso a médicos ni medicinas, mientras otras ciudades tienen muchos hospitales. No es justo.</div>
+                    </div>
+                    <div class="elemento-explorable" onclick="toggleExplore(this)">
+                        <div class="icono">💰</div>
+                        <div class="titulo">Oportunidades de Trabajo</div>
+                        <div class="descripcion">Por prejuicios, algunas personas tienen dificultad para conseguir empleos aunque sean tan capaces como otros. Eso es inequidad.</div>
+                    </div>
+                    <div class="elemento-explorable" onclick="toggleExplore(this)">
+                        <div class="icono">🏠</div>
+                        <div class="titulo">Vivienda</div>
+                        <div class="descripcion">No todos tienen acceso a casas seguras y cómodas. Muchas familias viven en lugares peligrosos. Esto es una inequidad.</div>
+                    </div>
+                </div>
+                <p style="text-align: center; color: var(--texto-oscuro); margin-top: 20px; font-style: italic;">Haz clic en cada ejemplo para explorar</p>
+            </div>
+        </div>
+
+        <!-- DIAPOSITIVA 8: ACTIVIDAD COMPRENSIÓN -->
+        <div class="diapositiva">
+            <div class="contenido-diapositiva">
+                <h2 class="titulo-seccion">Actividad: Comprensión</h2>
+                <div class="pregunta">
+                    <h3>Pregunta 1: ¿Cuál es la diferencia entre igualdad y equidad?</h3>
+                    <div class="opciones">
+                        <label class="opcion"><input type="radio" name="pregunta1" value="a"><span>La igualdad es dar lo mismo a todos; la equidad es dar lo que cada uno necesita.</span></label>
+                        <label class="opcion"><input type="radio" name="pregunta1" value="b"><span>Son exactamente lo mismo, no hay diferencia.</span></label>
+                        <label class="opcion"><input type="radio" name="pregunta1" value="c"><span>La equidad solo existe en los países ricos.</span></label>
+                    </div>
+                    <button class="boton-enviar" onclick="verificarPregunta(1, 'a')">Verificar</button>
+                    <div id="retroalimentacion1" class="retroalimentacion"></div>
+                </div>
+                <div class="pregunta">
+                    <h3>Pregunta 2: ¿Cuál es un ejemplo de inequidad?</h3>
+                    <div class="opciones">
+                        <label class="opcion"><input type="radio" name="pregunta2" value="a"><span>Algunos niños no pueden ir a la escuela porque necesitan trabajar.</span></label>
+                        <label class="opcion"><input type="radio" name="pregunta2" value="b"><span>Todos reciben las mismas herramientas en clase.</span></label>
+                        <label class="opcion"><input type="radio" name="pregunta2" value="c"><span>El profesor explica las lecciones a todos por igual.</span></label>
+                    </div>
+                    <button class="boton-enviar" onclick="verificarPregunta(2, 'a')">Verificar</button>
+                    <div id="retroalimentacion2" class="retroalimentacion"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DIAPOSITIVA 9: JUEGO DRAG & DROP -->
+        <div class="diapositiva">
+            <div class="contenido-diapositiva">
+                <h2 class="titulo-seccion">Juego: Clasificar Situaciones</h2>
+                <p style="text-align: center; color: var(--texto-oscuro); margin-bottom: 10px; font-size: 1.05em;">
+                    <strong style="color: var(--naranja);">💻 DESKTOP:</strong> Arrastra cada situación hacia la columna correcta.
+                </p>
+                <p style="text-align: center; color: var(--texto-oscuro); margin-bottom: 20px; font-size: 1.05em;">
+                    <strong style="color: var(--naranja);">📱 MÓVIL/TABLET:</strong> Toca una situación para seleccionarla (se resaltará), luego toca la columna donde deseas colocarla.
+                </p>
+                <div class="juego-clasificacion">
+                    <div class="columna-juego" id="columna-equidad" ondrop="drop(event)" ondragover="dragover(event)" style="cursor: pointer;">
+                        <h4>✓ Equidad</h4>
+                        <div class="items-juego"></div>
+                    </div>
+                    <div class="columna-juego" id="columna-inequidad" ondrop="drop(event)" ondragover="dragover(event)" style="cursor: pointer;">
+                        <h4>❌ Inequidad</h4>
+                        <div class="items-juego"></div>
+                    </div>
+                </div>
+                <div style="background: linear-gradient(135deg, var(--blanco) 0%, var(--gris-claro) 100%); padding: 20px; border-radius: 12px; border: 2px solid var(--gris-medio); margin-top: 20px;">
+                    <p style="text-align: center; color: var(--texto-oscuro); margin-bottom: 15px; font-weight: 600;">Situaciones para clasificar:</p>
+                    <div id="opciones-juego" class="items-juego" style="display: flex; flex-direction: row; gap: 15px; flex-wrap: wrap; justify-content: center; padding: 15px;"></div>
+                </div>
+                <button class="boton-enviar" onclick="verificarJuego()" style="margin-top: 20px; display: block; margin-left: auto; margin-right: auto;">Verificar Clasificación</button>
+                <div id="retroalimentacionJuego" class="retroalimentacion"></div>
+            </div>
+        </div>
+
+        <!-- DIAPOSITIVA 10: APLICACIÓN PRÁCTICA -->
+        <div class="diapositiva">
+            <div class="contenido-diapositiva">
+                <h2 class="titulo-seccion">Aplicación Práctica</h2>
+                <div class="contenido-bloque">🤔 <strong>Lee la situación y elige qué acción crearía más equidad:</strong></div>
+                <div class="pregunta">
+                    <h3>En tu escuela hay estudiantes que no tienen útiles escolares (lápices, cuadernos). ¿Qué sería lo más equitativo?</h3>
+                    <div class="opciones">
+                        <label class="opcion"><input type="radio" name="aplicacion1" value="a"><span>Proporcionar útiles gratis solo a los estudiantes que no pueden comprarlos.</span></label>
+                        <label class="opcion"><input type="radio" name="aplicacion1" value="b"><span>Decir que cada estudiante compre sus propios útiles sin excepción.</span></label>
+                        <label class="opcion"><input type="radio" name="aplicacion1" value="c"><span>Dar los mismos útiles a todos por igual, aunque algunos ya tengan.</span></label>
+                    </div>
+                    <button class="boton-enviar" onclick="verificarAplicacion(1, 'a')">Verificar</button>
+                    <div id="retroalimentacionApl1" class="retroalimentacion"></div>
+                </div>
+                <div class="pregunta">
+                    <h3>Un compañero usa silla de ruedas y no puede subir las escaleras. ¿Qué es equitativo?</h3>
+                    <div class="opciones">
+                        <label class="opcion"><input type="radio" name="aplicacion2" value="a"><span>Construir una rampa para que él pueda acceder a todas las áreas.</span></label>
+                        <label class="opcion"><input type="radio" name="aplicacion2" value="b"><span>Que se quede en casa porque la escuela tiene escaleras.</span></label>
+                        <label class="opcion"><input type="radio" name="aplicacion2" value="c"><span>Que los otros estudiantes también tengan que usar silla de ruedas.</span></label>
+                    </div>
+                    <button class="boton-enviar" onclick="verificarAplicacion(2, 'a')">Verificar</button>
+                    <div id="retroalimentacionApl2" class="retroalimentacion"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DIAPOSITIVA 11: REPASO FINAL -->
+        <div class="diapositiva">
+            <div class="contenido-diapositiva">
+                <h2 class="titulo-seccion">Repaso Final</h2>
+                <div class="pregunta">
+                    <h3>¿Qué debemos recordar sobre equidad?</h3>
+                    <div class="opciones">
+                        <label class="opcion"><input type="radio" name="repaso1" value="a"><span>La equidad significa dar a cada persona lo que necesita para tener iguales oportunidades.</span></label>
+                        <label class="opcion"><input type="radio" name="repaso1" value="b"><span>Todos deben recibir exactamente lo mismo sin excepciones.</span></label>
+                    </div>
+                    <button class="boton-enviar" onclick="verificarRepaso(1, 'a')">Verificar</button>
+                    <div id="retroalimentacionRep1" class="retroalimentacion"></div>
+                </div>
+                <div class="pregunta">
+                    <h3>¿Cuál NO es un ejemplo de inequidad?</h3>
+                    <div class="opciones">
+                        <label class="opcion"><input type="radio" name="repaso2" value="a"><span>Un estudiante con discapacidad recibe apoyo especial en clases.</span></label>
+                        <label class="opcion"><input type="radio" name="repaso2" value="b"><span>Algunos niños trabajan mientras otros van a la escuela.</span></label>
+                    </div>
+                    <button class="boton-enviar" onclick="verificarRepaso(2, 'a')">Verificar</button>
+                    <div id="retroalimentacionRep2" class="retroalimentacion"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DIAPOSITIVA 12: VERIFICA APRENDIZAJE -->
+        <div class="diapositiva">
+            <div class="contenido-diapositiva">
+                <h2 class="titulo-seccion">Verifica Tu Aprendizaje</h2>
+                <div class="pregunta">
+                    <h3>¿Cuáles de estos son ejemplos de cómo lograr equidad?</h3>
+                    <div class="opciones">
+                        <label class="opcion"><input type="checkbox" name="aprendizaje1" value="a"><span>Dar recursos adicionales a quienes más los necesitan</span></label>
+                        <label class="opcion"><input type="checkbox" name="aprendizaje1" value="b"><span>Hacer ajustes para que todos tengan las mismas oportunidades</span></label>
+                        <label class="opcion"><input type="checkbox" name="aprendizaje1" value="c"><span>No importa si algunos tienen ventajas injustas</span></label>
+                    </div>
+                    <button class="boton-enviar" onclick="verificarMultiple(1, ['a','b'])">Verificar</button>
+                    <div id="retroalimentacion-multi1" class="retroalimentacion"></div>
+                </div>
+                <div class="pregunta">
+                    <h3>¿Cuál es la mejor forma de crear un mundo equitativo?</h3>
+                    <div class="opciones">
+                        <label class="opcion"><input type="radio" name="aprendizaje2" value="a"><span>Entender las necesidades de cada persona y actuar justamente</span></label>
+                        <label class="opcion"><input type="radio" name="aprendizaje2" value="b"><span>Ignorar las diferencias y actuar igual con todos</span></label>
+                        <label class="opcion"><input type="radio" name="aprendizaje2" value="c"><span>Solo pensar en nosotros mismos</span></label>
+                    </div>
+                    <button class="boton-enviar" onclick="verificarAprendizaje(2, 'a')">Verificar</button>
+                    <div id="retroalimentacionApr2" class="retroalimentacion"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DIAPOSITIVA 13: CIERRE -->
+        <div class="diapositiva">
+            <div class="contenido-diapositiva cierre-mensaje">
+                <div class="medal-icon">🏆</div>
+                <div class="cierre-titulo">¡Excelente trabajo!</div>
+                <div class="cierre-subtitulo">Has completado la lección sobre <strong>Equidad e Inequidad</strong>.</div>
+                <div class="cierre-subtitulo">Ahora entiendes qué es la equidad y cómo crear un mundo más justo para todos. <strong>¡Felicitaciones!</strong></div>
+                <div style="margin-top: 30px; padding: 25px; background: linear-gradient(135deg, rgba(219, 96, 21, 0.1) 0%, rgba(247, 190, 0, 0.1) 100%); border-radius: 12px; border: 2px solid var(--amarillo);">
+                    <p style="color: var(--azul-oscuro); font-size: 1.1em; font-weight: 700;">Recuerda: Todos podemos hacer una diferencia siendo equitativo con los demás. 💪</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-flecha nav-izquierda" onclick="anterior()">⬅️</div>
+        <div class="nav-flecha nav-derecha" onclick="siguiente()">➡️</div>
+    </div>
+
+    <script>
+        let diapositivaActual = 0;
+        const diapositivas = document.querySelectorAll('.diapositiva');
+        const totalDiapositivas = diapositivas.length;
+        let draggeado = null;
+
+        const itemsJuego = [
+            { texto: 'Una persona que necesita muletas recibe una rampa para entrar a la escuela', correcta: 'equidad' },
+            { texto: 'Los niños pobres no pueden acceder a internet para hacer tareas', correcta: 'inequidad' },
+            { texto: 'Se proporciona comida gratis a los estudiantes que no pueden pagar', correcta: 'equidad' },
+            { texto: 'Las mujeres ganan menos dinero que los hombres por el mismo trabajo', correcta: 'inequidad' },
+            { texto: 'El profesor da más ejemplos a quienes tienen dificultad para entender', correcta: 'equidad' }
+        ];
+
+        // SOPORTE PARA DESKTOP (Drag & Drop)
+        function dragstart(e) {
+            draggeado = e.target;
+            e.target.style.opacity = '0.5';
+        }
+
+        function dragend(e) {
+            e.target.style.opacity = '1';
+        }
+
+        function dragover(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('dragover');
+        }
+
+        function drop(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('dragover');
+            if (draggeado) {
+                const itemsDiv = e.currentTarget.querySelector('.items-juego');
+                itemsDiv.appendChild(draggeado);
+                draggeado = null;
+            }
+        }
+
+        // SOPORTE PARA TABLET/MÓVIL (Touch + Click)
+        function seleccionarItem(elemento) {
+            // Si ya hay uno seleccionado, deseleccionalo
+            const previo = document.querySelector('.item-juego.seleccionado');
+            if (previo) previo.classList.remove('seleccionado');
+            
+            // Selecciona el nuevo
+            elemento.classList.add('seleccionado');
+            draggeado = elemento;
+        }
+
+        function moverAColumna(columnId) {
+            if (!draggeado) {
+                alert('Primero toca un elemento para seleccionarlo');
+                return;
+            }
+            const columna = document.getElementById(columnId);
+            const itemsDiv = columna.querySelector('.items-juego');
+            itemsDiv.appendChild(draggeado);
+            draggeado.classList.remove('seleccionado');
+            draggeado = null;
+        }
+
+        function inicializarJuego() {
+            const contenedor = document.getElementById('opciones-juego');
+            contenedor.innerHTML = '';
+            itemsJuego.forEach((item, i) => {
+                const div = document.createElement('div');
+                div.className = 'item-juego';
+                div.draggable = true;
+                div.ondragstart = dragstart;
+                div.ondragend = dragend;
+                
+                // SOPORTE PARA TOUCH: Selecciona el elemento al tocarlo
+                div.addEventListener('touchstart', function(e) {
+                    seleccionarItem(this);
+                });
+                
+                // SOPORTE PARA CLICK: También funciona con click
+                div.addEventListener('click', function(e) {
+                    if (e.touches) return; // Ignora si es touch
+                    seleccionarItem(this);
+                });
+                
+                div.dataset.correcta = item.correcta;
+                div.textContent = item.texto;
+                div.style.maxWidth = '220px';
+                div.style.cursor = 'pointer';
+                contenedor.appendChild(div);
+            });
+
+            // Agregar eventos a las columnas para touch
+            const colEquidad = document.getElementById('columna-equidad');
+            const colInequidad = document.getElementById('columna-inequidad');
+            
+            colEquidad.addEventListener('click', function() {
+                if (draggeado && draggeado.parentElement.id !== 'columna-equidad') {
+                    moverAColumna('columna-equidad');
+                }
+            });
+            
+            colInequidad.addEventListener('click', function() {
+                if (draggeado && draggeado.parentElement.id !== 'columna-inequidad') {
+                    moverAColumna('columna-inequidad');
+                }
+            });
+        }
+
+        function verificarJuego() {
+            const colEquidad = document.querySelector('#columna-equidad .items-juego');
+            const colInequidad = document.querySelector('#columna-inequidad .items-juego');
+            let correcto = true;
+
+            colEquidad.querySelectorAll('.item-juego').forEach(item => {
+                if (item.dataset.correcta === 'equidad') {
+                    item.classList.add('correcta');
+                    item.classList.remove('incorrecta');
+                } else {
+                    item.classList.add('incorrecta');
+                    item.classList.remove('correcta');
+                    correcto = false;
+                }
+            });
+
+            colInequidad.querySelectorAll('.item-juego').forEach(item => {
+                if (item.dataset.correcta === 'inequidad') {
+                    item.classList.add('correcta');
+                    item.classList.remove('incorrecta');
+                } else {
+                    item.classList.add('incorrecta');
+                    item.classList.remove('correcta');
+                    correcto = false;
+                }
+            });
+
+            const ret = document.getElementById('retroalimentacionJuego');
+            if (correcto) {
+                ret.className = 'retroalimentacion correcta';
+                ret.textContent = '¡Perfecto! Has clasificado todas correctamente.';
+            } else {
+                ret.className = 'retroalimentacion incorrecta';
+                ret.innerHTML = 'Algunos elementos no están en el lugar correcto. <button class="boton-reintentar" onclick="reiniciarJuego()">Reintentar</button>';
+            }
+        }
+
+        function reiniciarJuego() {
+            document.getElementById('retroalimentacionJuego').innerHTML = '';
+            document.querySelectorAll('.item-juego').forEach(item => {
+                item.classList.remove('correcta', 'incorrecta');
+                document.getElementById('opciones-juego').appendChild(item);
+            });
+        }
+
+        function verificarPregunta(num, resp) {
+            const radios = document.querySelectorAll('input[name="pregunta' + num + '"]');
+            let seleccionada = null;
+            radios.forEach(r => { if (r.checked) seleccionada = r.value; });
+            if (!seleccionada) { alert('Selecciona una respuesta'); return; }
+            const ret = document.getElementById('retroalimentacion' + num);
+            if (seleccionada === resp) {
+                ret.className = 'retroalimentacion correcta';
+                ret.textContent = '¡Muy bien! Tu respuesta es correcta.';
+            } else {
+                ret.className = 'retroalimentacion incorrecta';
+                ret.innerHTML = 'No es correcta. Intenta nuevamente. <button class="boton-reintentar" onclick="reintentar(' + num + ')">Reintentar</button>';
+            }
+        }
+
+        function reintentar(num) {
+            document.querySelectorAll('input[name="pregunta' + num + '"]').forEach(r => r.checked = false);
+            document.getElementById('retroalimentacion' + num).innerHTML = '';
+        }
+
+        function verificarAplicacion(num, resp) {
+            const radios = document.querySelectorAll('input[name="aplicacion' + num + '"]');
+            let seleccionada = null;
+            radios.forEach(r => { if (r.checked) seleccionada = r.value; });
+            if (!seleccionada) { alert('Selecciona una respuesta'); return; }
+            const ret = document.getElementById('retroalimentacionApl' + num);
+            if (seleccionada === resp) {
+                ret.className = 'retroalimentacion correcta';
+                ret.textContent = '¡Excelente! Identificaste la acción más equitativa.';
+            } else {
+                ret.className = 'retroalimentacion incorrecta';
+                ret.innerHTML = 'No es la más equitativa. Intenta nuevamente. <button class="boton-reintentar" onclick="reintentarApl(' + num + ')">Reintentar</button>';
+            }
+        }
+
+        function reintentarApl(num) {
+            document.querySelectorAll('input[name="aplicacion' + num + '"]').forEach(r => r.checked = false);
+            document.getElementById('retroalimentacionApl' + num).innerHTML = '';
+        }
+
+        function verificarRepaso(num, resp) {
+            const radios = document.querySelectorAll('input[name="repaso' + num + '"]');
+            let seleccionada = null;
+            radios.forEach(r => { if (r.checked) seleccionada = r.value; });
+            if (!seleccionada) { alert('Selecciona una respuesta'); return; }
+            const ret = document.getElementById('retroalimentacionRep' + num);
+            if (seleccionada === resp) {
+                ret.className = 'retroalimentacion correcta';
+                ret.textContent = '¡Perfecto! Demostraste que aprendiste bien.';
+            } else {
+                ret.className = 'retroalimentacion incorrecta';
+                ret.innerHTML = 'No es correcta. Intenta nuevamente. <button class="boton-reintentar" onclick="reintentarRep(' + num + ')">Reintentar</button>';
+            }
+        }
+
+        function reintentarRep(num) {
+            document.querySelectorAll('input[name="repaso' + num + '"]').forEach(r => r.checked = false);
+            document.getElementById('retroalimentacionRep' + num).innerHTML = '';
+        }
+
+        function verificarMultiple(num, respuestas) {
+            const checkboxes = document.querySelectorAll('input[name="aprendizaje' + num + '"]');
+            let seleccionadas = [];
+            checkboxes.forEach(c => { if (c.checked) seleccionadas.push(c.value); });
+            if (seleccionadas.length === 0) { alert('Selecciona al menos una opción'); return; }
+            const ret = document.getElementById('retroalimentacion-multi' + num);
+            const correcto = seleccionadas.length === respuestas.length && seleccionadas.every(s => respuestas.includes(s));
+            if (correcto) {
+                ret.className = 'retroalimentacion correcta';
+                ret.textContent = '¡Excelente! Identificaste todas las respuestas correctas.';
+            } else {
+                ret.className = 'retroalimentacion incorrecta';
+                ret.innerHTML = 'No todas son correctas. Intenta nuevamente. <button class="boton-reintentar" onclick="reintentarMulti(' + num + ')">Reintentar</button>';
+            }
+        }
+
+        function reintentarMulti(num) {
+            document.querySelectorAll('input[name="aprendizaje' + num + '"]').forEach(c => c.checked = false);
+            document.getElementById('retroalimentacion-multi' + num).innerHTML = '';
+        }
+
+        function verificarAprendizaje(num, resp) {
+            const radios = document.querySelectorAll('input[name="aprendizaje' + num + '"]');
+            let seleccionada = null;
+            radios.forEach(r => { if (r.checked) seleccionada = r.value; });
+            if (!seleccionada) { alert('Selecciona una respuesta'); return; }
+            const ret = document.getElementById('retroalimentacionApr' + num);
+            if (seleccionada === resp) {
+                ret.className = 'retroalimentacion correcta';
+                ret.textContent = '¡Excelente! Comprendiste perfectamente.';
+            } else {
+                ret.className = 'retroalimentacion incorrecta';
+                ret.innerHTML = 'No es correcta. Intenta nuevamente. <button class="boton-reintentar" onclick="reintentarApr(' + num + ')">Reintentar</button>';
+            }
+        }
+
+        function reintentarApr(num) {
+            document.querySelectorAll('input[name="aprendizaje' + num + '"]').forEach(r => r.checked = false);
+            document.getElementById('retroalimentacionApr' + num).innerHTML = '';
+        }
+
+        function toggleExplore(el) {
+            el.classList.toggle('activo');
+        }
+
+        function mostrarDiapositiva(n) {
+            diapositivas.forEach(d => d.classList.remove('activa'));
+            diapositivas[n].classList.add('activa');
+            document.getElementById('progreso').style.width = ((n + 1) / totalDiapositivas * 100) + '%';
+            if (n === 8) inicializarJuego();
+            window.scrollTo(0, 0);
+        }
+
+        function siguiente() {
+            if (diapositivaActual < totalDiapositivas - 1) {
+                diapositivaActual++;
+                mostrarDiapositiva(diapositivaActual);
+            }
+        }
+
+        function anterior() {
+            if (diapositivaActual > 0) {
+                diapositivaActual--;
+                mostrarDiapositiva(diapositivaActual);
+            }
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight') siguiente();
+            if (e.key === 'ArrowLeft') anterior();
+        });
+
+        mostrarDiapositiva(0);
+    </script>
+</body>
+</html>
